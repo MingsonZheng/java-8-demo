@@ -4,6 +4,7 @@ import com.zzm.methodreferences.Employee;
 import com.zzm.methodreferences.EmployeeData;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -75,5 +76,34 @@ public class StreamAPITest2 {
 
         // 使用集合的遍历操作
         employees.forEach(System.out::println);
+    }
+
+    // 2-归约
+    @Test
+    public void test3() {
+        // reduce(T identity, BinaryOperator) -- 可以将流中元素反复结合起来，得到一个值。返回 T
+        // 练习1: 计算1-10的自然数的和
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        /**
+         * T reduce(T identity, BinaryOperator<T> accumulator);// identity = 0 表示从 0 开始
+         *
+         * public interface BinaryOperator<T> extends BiFunction<T,T,T>
+         *     传入两个 T，返回一个 T
+         *
+         *     // 第一个 T 是 a，第二个 T 是 b，返回 a+b 又作为第一个 T
+         *     public static int sum(int a, int b) {
+         *         return a + b;
+         *     }
+         */
+        Integer reduce = list.stream().reduce(0, Integer::sum);
+        System.out.println("reduce=" + reduce);
+
+        // reduce(BinaryOperator b) -- 可以将流中元素反复结合起来，得到一个值。返回 Optional<T>
+        // 练习2: 计算公司所有员工工资的总和
+        List<Employee> employees = EmployeeData.getEmployees();
+        Stream<Double> salaryStream = employees.stream().map(Employee::getSalary);
+        // Optional<Double> reduce1 = salaryStream.reduce(Double::sum);
+        Optional<Double> reduce1 = salaryStream.reduce((d1, d2) -> d1 + d2);
+        System.out.println("reduce1=" + reduce1);
     }
 }
