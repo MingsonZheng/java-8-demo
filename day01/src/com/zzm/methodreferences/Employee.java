@@ -13,6 +13,21 @@ public class Employee {
     private int age;
     private double salary;
 
+    public Employee() {
+        System.out.println("Employee() 构造函数被执行");
+    }
+
+    public Employee(int id) {
+        System.out.println("Employee(int id) 构造函数被执行");
+        this.id = id;
+    }
+
+    public Employee(int id, String name) {
+        System.out.println("Employee(int id, String name) 构造函数被执行");
+        this.id = id;
+        this.name = name;
+    }
+
     public Employee(int id, String name, int age, double salary) {
         this.id = id;
         this.name = name;
